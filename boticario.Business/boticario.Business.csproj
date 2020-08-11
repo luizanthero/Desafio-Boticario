@@ -6,7 +6,11 @@
 
   <ItemGroup>
     <Folder Include="Helpers\Enums\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\boticario.DAL\boticario.DAL.csproj" />
+    <ProjectReference Include="..\boticario.Domain\boticario.Domain.csproj" />
   </ItemGroup>
 
 </Project>
