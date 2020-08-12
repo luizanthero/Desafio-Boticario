@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace boticario.Services
 {
-    public class HistoricoService : IRepository<Historico>
+    public class HistoricoService
     {
         public readonly AppDbContext context;
 

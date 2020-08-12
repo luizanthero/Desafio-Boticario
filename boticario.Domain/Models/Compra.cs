@@ -34,9 +34,9 @@ namespace boticario.Models
         public bool Ativo { get; set; } = true;
 
         [JsonIgnore]
-        public DateTime Criacao { get; set; } = DateTime.Now;
+        public DateTime DataCriacao { get; set; } = DateTime.Now;
 
         [JsonIgnore]
-        public DateTime Alteracao { get; set; }
+        public DateTime DataAlteracao { get; set; }
     }
 }

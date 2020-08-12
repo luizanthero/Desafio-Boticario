@@ -9,11 +9,11 @@ namespace boticario.Business.Interfaces
 
         Task<T> GetById(int id);
 
-        Task<T> Create(T entity);
+        Task<T> Create(T entity, string usuario);
 
-        Task<bool> Update(T entity);
+        Task<bool> Update(T entity, string usuario);
 
-        Task<bool> DeleteById(int id);
+        Task<bool> DeleteById(int id, string usuario);
 
         Task<bool> IsExist(int id);
     }

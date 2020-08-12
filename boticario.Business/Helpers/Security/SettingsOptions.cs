@@ -1,4 +1,4 @@
-﻿namespace boticario.Business.Security
+﻿namespace boticario.Helpers.Security
 {
     public class SettingsOptions
     {

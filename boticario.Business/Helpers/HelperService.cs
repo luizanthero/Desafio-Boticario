@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace boticario.Helpers
 {
-    public class GenericService
+    public class HelperService
     {
         private readonly AppDbContext context;
 
-        public GenericService(AppDbContext context)
+        public HelperService(AppDbContext context)
         {
             this.context = context;
         }
