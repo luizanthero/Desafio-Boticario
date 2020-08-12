@@ -1,6 +1,4 @@
-﻿using boticario.Business.Interfaces;
-using boticario.Context;
-using boticario.Models;
+﻿using boticario.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
