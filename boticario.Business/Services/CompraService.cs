@@ -88,7 +88,7 @@ namespace boticario.Services
         }
 
         public async Task<IEnumerable<Compra>> GetAll()
-            => await context.Compras.Where(item => item.Ativo).ToListAsync();
+            => await context.Compras.Where(item => (bool)item.Ativo).ToListAsync();
 
         public async Task<Compra> GetById(int id)
             => await context.Compras.FirstOrDefaultAsync(item => item.Id.Equals(id));

@@ -88,7 +88,7 @@ namespace boticario.Services
         }
 
         public async Task<IEnumerable<RegraCashback>> GetAll()
-            => await context.RegrasCashback.Where(item => item.Ativo).ToListAsync();
+            => await context.RegrasCashback.Where(item => (bool)item.Ativo).ToListAsync();
 
         public async Task<RegraCashback> GetById(int id)
             => await context.RegrasCashback.FirstOrDefaultAsync(item => item.Id.Equals(id));

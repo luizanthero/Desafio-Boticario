@@ -21,28 +21,28 @@ namespace boticario.Models
             builder.Entity<Compra>(entity =>
             {
                 entity.Property(item => item.Ativo).HasDefaultValue(true);
-                entity.Property(item => item.DataCriacao).HasDefaultValue("GETDATE()");
+                entity.Property(item => item.DataCriacao).HasDefaultValueSql("GETDATE()");
             });
             builder.Entity<Historico>(entity =>
             {
-                entity.Property(item => item.Data).HasDefaultValue("GETDATE()");
+                entity.Property(item => item.Data).HasDefaultValueSql("GETDATE()");
             });
             builder.Entity<ParametroSistema>(entity =>
             {
                 entity.Property(item => item.Ativo).HasDefaultValue(true);
-                entity.Property(item => item.DataCriacao).HasDefaultValue("GETDATE()");
+                entity.Property(item => item.DataCriacao).HasDefaultValueSql("GETDATE()");
 
                 entity.HasIndex(item => item.NomeParametro).IsUnique();
             });
             builder.Entity<RegraCashback>(entity =>
             {
                 entity.Property(item => item.Ativo).HasDefaultValue(true);
-                entity.Property(item => item.DataCriacao).HasDefaultValue("GETDATE()");
+                entity.Property(item => item.DataCriacao).HasDefaultValueSql("GETDATE()");
             });
             builder.Entity<Revendedor>(entity =>
             {
                 entity.Property(item => item.Ativo).HasDefaultValue(true);
-                entity.Property(item => item.DataCriacao).HasDefaultValue("GETDATE()");
+                entity.Property(item => item.DataCriacao).HasDefaultValueSql("GETDATE()");
 
                 entity.HasIndex(item => item.Cpf).IsUnique();
                 entity.HasIndex(item => item.Email).IsUnique();
@@ -50,14 +50,14 @@ namespace boticario.Models
             builder.Entity<StatusCompra>(entity =>
             {
                 entity.Property(item => item.Ativo).HasDefaultValue(true);
-                entity.Property(item => item.DataCriacao).HasDefaultValue("GETDATE()");
+                entity.Property(item => item.DataCriacao).HasDefaultValueSql("GETDATE()");
 
                 entity.HasIndex(item => item.Descricao).IsUnique();
             });
             builder.Entity<TipoHistorico>(entity =>
             {
                 entity.Property(item => item.Ativo).HasDefaultValue(true);
-                entity.Property(item => item.DataCriacao).HasDefaultValue("GETDATE()");
+                entity.Property(item => item.DataCriacao).HasDefaultValueSql("GETDATE()");
 
                 entity.HasIndex(item => item.Descricao).IsUnique();
             });

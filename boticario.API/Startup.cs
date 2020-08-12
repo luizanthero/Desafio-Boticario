@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using boticario.Helpers;
 using boticario.Helpers.Security;
 using boticario.Models;
@@ -13,13 +10,10 @@ using boticario.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -72,7 +66,7 @@ namespace boticario.API
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ConnectionSqlServer"), 
-                    connection => connection.MigrationsAssembly("API")
+                    connection => connection.MigrationsAssembly("boticario.API")
                 )
             );
 

@@ -86,7 +86,7 @@ namespace boticario.Services
         }
 
         public async Task<IEnumerable<ParametroSistema>> GetAll()
-            => await context.ParametrosSistema.Where(item => item.Ativo).ToListAsync();
+            => await context.ParametrosSistema.Where(item => (bool)item.Ativo).ToListAsync();
 
         public async Task<ParametroSistema> GetById(int id)
             => await context.ParametrosSistema.FirstOrDefaultAsync(item => item.Id.Equals(id));

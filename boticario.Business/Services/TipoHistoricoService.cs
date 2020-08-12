@@ -89,7 +89,7 @@ namespace boticario.Services
         }
 
         public async Task<IEnumerable<TipoHistorico>> GetAll()
-            => await context.TiposHistorico.Where(item => item.Ativo).ToListAsync();
+            => await context.TiposHistorico.Where(item => (bool)item.Ativo).ToListAsync();
 
         public async Task<TipoHistorico> GetById(int id)
             => await context.TiposHistorico.FirstOrDefaultAsync(item => item.Id.Equals(id));
