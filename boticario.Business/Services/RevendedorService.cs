@@ -37,7 +37,7 @@ namespace boticario.Services
 
                 await historicoService.Create(new Historico
                 {
-                    ChaveTable = entity.Id,
+                    ChaveTabela = entity.Id,
                     NomeTabela = typeof(Revendedor).Name,
                     JsonAntes = string.Empty,
                     JsonDepois = json,
@@ -72,7 +72,7 @@ namespace boticario.Services
 
                 await historicoService.Create(new Historico
                 {
-                    ChaveTable = entity.Id,
+                    ChaveTabela = entity.Id,
                     NomeTabela = typeof(Revendedor).Name,
                     JsonAntes = json,
                     JsonDepois = string.Empty,
@@ -114,7 +114,7 @@ namespace boticario.Services
 
                 await historicoService.Create(new Historico
                 {
-                    ChaveTable = entity.Id,
+                    ChaveTabela = entity.Id,
                     NomeTabela = typeof(Revendedor).Name,
                     JsonAntes = oldJson,
                     JsonDepois = newJson,

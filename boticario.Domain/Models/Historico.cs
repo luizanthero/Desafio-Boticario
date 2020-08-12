@@ -22,7 +22,7 @@ namespace boticario.Models
         public string NomeTabela { get; set; }
 
         [Required]
-        public int ChaveTable { get; set; }
+        public int ChaveTabela { get; set; }
 
         public string JsonAntes { get; set; }
 
