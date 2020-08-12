@@ -10,7 +10,7 @@ using boticario.Models;
 namespace boticario.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200812170612_InitialCreate")]
+    [Migration("20200812213028_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,7 @@ namespace boticario.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo")
+                    b.Property<bool?>("Ativo")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -57,12 +57,6 @@ namespace boticario.API.Migrations
                     b.Property<int>("PercentualCashback")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RevendedorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StatusId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Valor")
                         .HasColumnType("int");
 
@@ -71,9 +65,9 @@ namespace boticario.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RevendedorId");
+                    b.HasIndex("IdRevendedor");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("IdStatus");
 
                     b.ToTable("Compra");
                 });
@@ -106,16 +100,13 @@ namespace boticario.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TipoHistoricoId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Usuario")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TipoHistoricoId");
+                    b.HasIndex("IdTipoHistorico");
 
                     b.ToTable("Historico");
                 });
@@ -127,7 +118,7 @@ namespace boticario.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo")
+                    b.Property<bool?>("Ativo")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -163,7 +154,7 @@ namespace boticario.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo")
+                    b.Property<bool?>("Ativo")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -197,7 +188,7 @@ namespace boticario.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo")
+                    b.Property<bool?>("Ativo")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -244,7 +235,7 @@ namespace boticario.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo")
+                    b.Property<bool?>("Ativo")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -276,7 +267,7 @@ namespace boticario.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo")
+                    b.Property<bool?>("Ativo")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -305,18 +296,24 @@ namespace boticario.API.Migrations
                 {
                     b.HasOne("boticario.Models.Revendedor", "Revendedor")
                         .WithMany()
-                        .HasForeignKey("RevendedorId");
+                        .HasForeignKey("IdRevendedor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("boticario.Models.StatusCompra", "Status")
                         .WithMany()
-                        .HasForeignKey("StatusId");
+                        .HasForeignKey("IdStatus")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("boticario.Models.Historico", b =>
                 {
                     b.HasOne("boticario.Models.TipoHistorico", "TipoHistorico")
                         .WithMany()
-                        .HasForeignKey("TipoHistoricoId");
+                        .HasForeignKey("IdTipoHistorico")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

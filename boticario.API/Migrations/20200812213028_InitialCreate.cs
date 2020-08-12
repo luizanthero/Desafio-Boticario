@@ -19,7 +19,7 @@ namespace boticario.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeParametro = table.Column<string>(nullable: false),
                     Valor = table.Column<string>(nullable: false),
-                    Ativo = table.Column<bool>(nullable: false, defaultValue: true),
+                    Ativo = table.Column<bool>(nullable: true, defaultValue: true),
                     DataCriacao = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     DataAlteracao = table.Column<DateTime>(nullable: false)
                 },
@@ -38,7 +38,7 @@ namespace boticario.API.Migrations
                     Inicio = table.Column<int>(nullable: false),
                     Fim = table.Column<int>(nullable: false),
                     Percentual = table.Column<int>(nullable: false),
-                    Ativo = table.Column<bool>(nullable: false, defaultValue: true),
+                    Ativo = table.Column<bool>(nullable: true, defaultValue: true),
                     DataCriacao = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     DataAlteracao = table.Column<DateTime>(nullable: false)
                 },
@@ -58,7 +58,7 @@ namespace boticario.API.Migrations
                     Cpf = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
                     Senha = table.Column<string>(nullable: false),
-                    Ativo = table.Column<bool>(nullable: false, defaultValue: true),
+                    Ativo = table.Column<bool>(nullable: true, defaultValue: true),
                     DataCriacao = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     DataAlteracao = table.Column<DateTime>(nullable: false)
                 },
@@ -75,7 +75,7 @@ namespace boticario.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(nullable: false),
-                    Ativo = table.Column<bool>(nullable: false, defaultValue: true),
+                    Ativo = table.Column<bool>(nullable: true, defaultValue: true),
                     DataCriacao = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     DataAlteracao = table.Column<DateTime>(nullable: false)
                 },
@@ -92,7 +92,7 @@ namespace boticario.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(nullable: false),
-                    Ativo = table.Column<bool>(nullable: false, defaultValue: true),
+                    Ativo = table.Column<bool>(nullable: true, defaultValue: true),
                     DataCriacao = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     DataAlteracao = table.Column<DateTime>(nullable: false)
                 },
@@ -109,15 +109,13 @@ namespace boticario.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdRevendedor = table.Column<int>(nullable: false),
-                    RevendedorId = table.Column<int>(nullable: true),
                     IdStatus = table.Column<int>(nullable: false),
-                    StatusId = table.Column<int>(nullable: true),
                     Codigo = table.Column<string>(nullable: true),
                     Valor = table.Column<int>(nullable: false),
                     DataCompra = table.Column<DateTime>(nullable: false),
                     PercentualCashback = table.Column<int>(nullable: false),
                     ValorCashback = table.Column<int>(nullable: false),
-                    Ativo = table.Column<bool>(nullable: false, defaultValue: true),
+                    Ativo = table.Column<bool>(nullable: true, defaultValue: true),
                     DataCriacao = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     DataAlteracao = table.Column<DateTime>(nullable: false)
                 },
@@ -125,19 +123,19 @@ namespace boticario.API.Migrations
                 {
                     table.PrimaryKey("PK_Compra", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Compra_Revendedor_RevendedorId",
-                        column: x => x.RevendedorId,
+                        name: "FK_Compra_Revendedor_IdRevendedor",
+                        column: x => x.IdRevendedor,
                         principalSchema: "BOTICARIO",
                         principalTable: "Revendedor",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Compra_StatusCompra_StatusId",
-                        column: x => x.StatusId,
+                        name: "FK_Compra_StatusCompra_IdStatus",
+                        column: x => x.IdStatus,
                         principalSchema: "BOTICARIO",
                         principalTable: "StatusCompra",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -148,7 +146,6 @@ namespace boticario.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdTipoHistorico = table.Column<int>(nullable: false),
-                    TipoHistoricoId = table.Column<int>(nullable: true),
                     Usuario = table.Column<string>(nullable: false),
                     NomeTabela = table.Column<string>(nullable: false),
                     ChaveTabela = table.Column<int>(nullable: false),
@@ -160,31 +157,31 @@ namespace boticario.API.Migrations
                 {
                     table.PrimaryKey("PK_Historico", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Historico_TipoHistorico_TipoHistoricoId",
-                        column: x => x.TipoHistoricoId,
+                        name: "FK_Historico_TipoHistorico_IdTipoHistorico",
+                        column: x => x.IdTipoHistorico,
                         principalSchema: "BOTICARIO",
                         principalTable: "TipoHistorico",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Compra_RevendedorId",
+                name: "IX_Compra_IdRevendedor",
                 schema: "BOTICARIO",
                 table: "Compra",
-                column: "RevendedorId");
+                column: "IdRevendedor");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Compra_StatusId",
+                name: "IX_Compra_IdStatus",
                 schema: "BOTICARIO",
                 table: "Compra",
-                column: "StatusId");
+                column: "IdStatus");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Historico_TipoHistoricoId",
+                name: "IX_Historico_IdTipoHistorico",
                 schema: "BOTICARIO",
                 table: "Historico",
-                column: "TipoHistoricoId");
+                column: "IdTipoHistorico");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ParametroSistema_NomeParametro",

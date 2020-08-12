@@ -20,11 +20,16 @@ namespace boticario.Models
 
             builder.Entity<Compra>(entity =>
             {
+                entity.HasOne(item => item.Revendedor).WithMany().HasForeignKey(item => item.IdRevendedor);
+                entity.HasOne(item => item.Status).WithMany().HasForeignKey(item => item.IdStatus);
+
                 entity.Property(item => item.Ativo).HasDefaultValue(true);
                 entity.Property(item => item.DataCriacao).HasDefaultValueSql("GETDATE()");
             });
             builder.Entity<Historico>(entity =>
             {
+                entity.HasOne(item => item.TipoHistorico).WithMany().HasForeignKey(item => item.IdTipoHistorico);
+
                 entity.Property(item => item.Data).HasDefaultValueSql("GETDATE()");
             });
             builder.Entity<ParametroSistema>(entity =>
