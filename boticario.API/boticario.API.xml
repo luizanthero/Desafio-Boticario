@@ -4,7 +4,7 @@
         <name>boticario.API</name>
     </assembly>
     <members>
-        <member name="M:boticario.API.Controllers.AuthenticationController.Register(boticario.Models.Revendedor)">
+        <member name="M:boticario.API.Controllers.AutenticacaoController.Register(boticario.Models.Revendedor)">
             <summary>
             Registra um novo Revendedor no Sistema
             </summary>
@@ -23,7 +23,7 @@
             <response code="200">Revendedor Registrado</response>
             <response code="500">Erro Interno no servidor</response>
         </member>
-        <member name="M:boticario.API.Controllers.AuthenticationController.Authentication(boticario.ViewModels.AuthenticationViewModel)">
+        <member name="M:boticario.API.Controllers.AutenticacaoController.Authentication(boticario.ViewModels.AuthenticationViewModel)">
             <summary>
             Autentica um Revendedor
             </summary>

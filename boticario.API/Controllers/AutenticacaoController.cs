@@ -11,11 +11,11 @@ namespace boticario.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AutenticacaoController : ControllerBase
     {
         private readonly RevendedorService service;
 
-        public AuthenticationController(RevendedorService service)
+        public AutenticacaoController(RevendedorService service)
         {
             this.service = service;
         }
