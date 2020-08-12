@@ -4,5 +4,41 @@
         <name>boticario.API</name>
     </assembly>
     <members>
+        <member name="M:boticario.API.Controllers.AuthenticationController.Register(boticario.Models.Revendedor)">
+            <summary>
+            Registra um novo Revendedor no Sistema
+            </summary>
+            <param name="revendedor"></param>
+            <returns></returns>
+            <remarks>
+            Exemplo de request: (CPF apenas números)
+            
+                {
+                    "Nome": "teste",
+                    "CPF": "00000000000"
+                    "Email": "teste@teste.com",
+                    "Senha": "teste"
+                }
+            </remarks>
+            <response code="200">Revendedor Registrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.AuthenticationController.Authentication(boticario.ViewModels.AuthenticationViewModel)">
+            <summary>
+            Autentica um Revendedor
+            </summary>
+            <remarks>
+            Exemplo de request:
+            
+                {
+                    "Email": "teste",
+                    "Senha": "teste"
+                }
+            </remarks>
+            <param name="auth"></param>
+            <returns></returns>
+            <response code="200">Revendedor autenticado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
     </members>
 </doc>
