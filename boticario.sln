@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "boticario.Domain", "boticario.Domain\boticario.Domain.csproj", "{4C2F553D-7BEA-465E-B941-0C042514BC5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "boticario.DAL", "boticario.DAL\boticario.DAL.csproj", "{55D0467E-C5CC-44FB-B0EF-5118C09E4178}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "boticario.DAL", "boticario.DAL\boticario.DAL.csproj", "{55D0467E-C5CC-44FB-B0EF-5118C09E4178}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "boticario.Business", "boticario.Business\boticario.Business.csproj", "{1112FCAE-585E-4B59-A480-E1205C30256C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "boticario.Business", "boticario.Business\boticario.Business.csproj", "{1112FCAE-585E-4B59-A480-E1205C30256C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "boticario.API", "boticario.API\boticario.API.csproj", "{5E72DBA3-09CE-4364-AB1D-3E135B5CDD05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{1112FCAE-585E-4B59-A480-E1205C30256C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1112FCAE-585E-4B59-A480-E1205C30256C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1112FCAE-585E-4B59-A480-E1205C30256C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E72DBA3-09CE-4364-AB1D-3E135B5CDD05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E72DBA3-09CE-4364-AB1D-3E135B5CDD05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E72DBA3-09CE-4364-AB1D-3E135B5CDD05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E72DBA3-09CE-4364-AB1D-3E135B5CDD05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
