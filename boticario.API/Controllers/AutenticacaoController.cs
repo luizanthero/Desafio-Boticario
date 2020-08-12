@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using boticario.Helpers.Enums;
 using boticario.Models;
 using boticario.Services;
 using boticario.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,16 +26,12 @@ namespace boticario.API.Controllers
         /// <param name="revendedor"></param>
         /// <returns></returns>
         /// <remarks>
-        /// Exemplo de request: (CPF apenas números)
+        /// Regras dos campos:
         /// 
-        ///     {
-        ///         "Nome": "teste",
-        ///         "CPF": "00000000000"
-        ///         "Email": "teste@teste.com",
-        ///         "Senha": "teste"
-        ///     }
+        ///  - CPF - apenas números
         /// </remarks>
         /// <response code="200">Revendedor Registrado</response>
+        /// <response code="400">Informação enviada inválida</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpPost("register")]
         public async Task<ActionResult<Revendedor>> Register(Revendedor revendedor)
@@ -46,26 +42,20 @@ namespace boticario.API.Controllers
 
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    new { message = MessageError.InternalError.Value, error = ex.Message });
             }
         }
 
         /// <summary>
         /// Autentica um Revendedor
         /// </summary>
-        /// <remarks>
-        /// Exemplo de request:
-        /// 
-        ///     {
-        ///         "Email": "teste",
-        ///         "Senha": "teste"
-        ///     }
-        /// </remarks>
         /// <param name="auth"></param>
         /// <returns></returns>
         /// <response code="200">Revendedor autenticado</response>
+        /// <response code="400">Informação enviada inválida</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpPost("authenticate")]
         public async Task<ActionResult<string>> Authentication(AuthenticationViewModel auth)
@@ -75,13 +65,14 @@ namespace boticario.API.Controllers
                 var token = await service.Authentication(auth.Email, auth.Senha);
 
                 if (string.IsNullOrEmpty(token))
-                    return BadRequest(new { message = "Email ou Senha incorretos!" });
+                    return BadRequest(new { message = MessageError.UserPasswordInvalid.Value });
 
                 return Ok(token);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    new { message = MessageError.InternalError.Value, error = ex.Message });
             }
         }
     }
