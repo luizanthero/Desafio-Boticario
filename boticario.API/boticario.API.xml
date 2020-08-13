@@ -29,6 +29,84 @@
             <response code="400">Informação enviada inválida</response>
             <response code="500">Erro Interno no servidor</response>
         </member>
+        <member name="M:boticario.API.Controllers.StatusCompraController.Delete(System.Int32)">
+            <summary>
+            Exclui um Status de Compra por Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao criar registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.StatusCompraController.GetAll">
+            <summary>
+            Retorna todos os Status de Compra
+            </summary>
+            <returns></returns>
+            <response code="200">Sucesso ao buscar todos os registros</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.StatusCompraController.GetById(System.Int32)">
+            <summary>
+            Retorna um Status de Compra por Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao buscar registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.StatusCompraController.Post(boticario.Models.StatusCompra)">
+            <summary>
+            Criação de um novo Status Compra
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao criar registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.StatusCompraController.Put(System.Int32,boticario.Models.StatusCompra)">
+            <summary>
+            Atualiza um Status Compra por Id
+            </summary>
+            <param name="id"></param>
+            <param name="entity"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao atualizar registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.TipoHistoricoController.Delete(System.Int32)">
+            <summary>
+            Exclui um Tipo de Histórico por Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao criar registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
         <member name="M:boticario.API.Controllers.TipoHistoricoController.GetAll">
             <summary>
             Retorna todos os Tipos de Histórico
@@ -75,19 +153,6 @@
             <param name="entity"></param>
             <returns></returns>
             <response code="200">Sucesso ao atualizar registro</response>
-            <response code="400">Informação enviada inválida</response>
-            <response code="401">Sem autorização</response>
-            <response code="403">Acesso negado</response>
-            <response code="404">Registro não encontrado</response>
-            <response code="500">Erro Interno no servidor</response>
-        </member>
-        <member name="M:boticario.API.Controllers.TipoHistoricoController.Delete(System.Int32)">
-            <summary>
-            Exclui um Tipo de Histórico por Id
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-            <response code="200">Sucesso ao criar registro</response>
             <response code="400">Informação enviada inválida</response>
             <response code="401">Sem autorização</response>
             <response code="403">Acesso negado</response>

@@ -16,17 +16,17 @@ namespace boticario.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class TipoHistoricoController : ControllerBase, IController<TipoHistorico>
+    public class StatusCompraController : ControllerBase, IController<StatusCompra>
     {
-        private readonly TipoHistoricoService service;
+        private readonly StatusCompraService service;
 
-        public TipoHistoricoController(TipoHistoricoService service)
+        public StatusCompraController(StatusCompraService service)
         {
             this.service = service;
         }
 
         /// <summary>
-        /// Exclui um Tipo de Histórico por Id
+        /// Exclui um Status de Compra por Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -46,9 +46,9 @@ namespace boticario.API.Controllers
                 if (await service.DeleteById(id, usuario))
                     return Ok(new { message = MessageSuccess.Delete.Value });
 
-                return BadRequest(new { message = MessageError.BadRequest });
+                return BadRequest(new { message = MessageError.BadRequest.Value });
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
@@ -56,7 +56,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Retorna todos os Tipos de Histórico
+        /// Retorna todos os Status de Compra
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Sucesso ao buscar todos os registros</response>
@@ -66,18 +66,18 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TipoHistorico>>> GetAll()
+        public async Task<ActionResult<IEnumerable<StatusCompra>>> GetAll()
         {
             try
             {
-                IEnumerable<TipoHistorico> entities = await service.GetAll();
+                IEnumerable<StatusCompra> entities = await service.GetAll();
 
                 if (entities.ToList().Count <= 0)
                     return NotFound(new { message = MessageError.NotFound.Value });
 
                 return Ok(entities);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
@@ -85,7 +85,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Retorna um Tipo de Histórico por Id
+        /// Retorna um Status de Compra por Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -96,11 +96,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet("{id}")]
-        public async Task<ActionResult<TipoHistorico>> GetById(int id)
+        public async Task<ActionResult<StatusCompra>> GetById(int id)
         {
             try
             {
-                TipoHistorico entity = await service.GetById(id);
+                StatusCompra entity = await service.GetById(id);
 
                 if (entity is null)
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
@@ -115,7 +115,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Criação de um novo Tipo Histórico
+        /// Criação de um novo Status Compra
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
@@ -126,7 +126,7 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpPost]
-        public async Task<ActionResult<TipoHistorico>> Post(TipoHistorico entity)
+        public async Task<ActionResult<StatusCompra>> Post(StatusCompra entity)
         {
             try
             {
@@ -138,13 +138,13 @@ namespace boticario.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
+                return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
         }
 
         /// <summary>
-        /// Atualiza um Tipo de Histórico por Id
+        /// Atualiza um Status Compra por Id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="entity"></param>
@@ -156,7 +156,7 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, TipoHistorico entity)
+        public async Task<IActionResult> Put(int id, StatusCompra entity)
         {
             try
             {
@@ -170,9 +170,9 @@ namespace boticario.API.Controllers
 
                 return NotFound(new { message = MessageError.NotFoundSingle.Value });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
+                return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
         }
