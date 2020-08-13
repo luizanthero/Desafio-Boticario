@@ -29,6 +29,71 @@
             <response code="400">Informação enviada inválida</response>
             <response code="500">Erro Interno no servidor</response>
         </member>
+        <member name="M:boticario.API.Controllers.CompraController.Delete(System.Int32)">
+            <summary>
+            Exclui uma Compra por Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao excluir registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.CompraController.GetAll">
+            <summary>
+            Retorna todas as Compras
+            </summary>
+            <returns></returns>
+            <response code="200">Sucesso ao buscar todos os registros</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.CompraController.GetById(System.Int32)">
+            <summary>
+            Retorna uma Compra por Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao buscar registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.CompraController.Post(boticario.Models.Compra)">
+            <summary>
+            Criação de uma nova Compra
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao criar registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.CompraController.Put(System.Int32,boticario.Models.Compra)">
+            <summary>
+            Atualiza uma Compra por Id
+            </summary>
+            <param name="id"></param>
+            <param name="entity"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao atualizar registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
         <member name="M:boticario.API.Controllers.ParametroSistemaController.Delete(System.Int32)">
             <summary>
             Exclui um Parâmetro do Sistema por Id
