@@ -16,17 +16,17 @@ namespace boticario.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class TipoHistoricoController : ControllerBase, IController<TipoHistorico>
+    public class RegraCashbackController : ControllerBase, IController<RegraCashback>
     {
-        private readonly TipoHistoricoService service;
+        private readonly RegraCashbackService service;
 
-        public TipoHistoricoController(TipoHistoricoService service)
+        public RegraCashbackController(RegraCashbackService service)
         {
             this.service = service;
         }
 
         /// <summary>
-        /// Exclui um Tipo de Histórico por Id
+        /// Exclui uma Regra de Cashback por Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -56,7 +56,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Retorna todos os Tipos de Histórico
+        /// Retorna todas as Regras de Cashback
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Sucesso ao buscar todos os registros</response>
@@ -66,11 +66,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TipoHistorico>>> GetAll()
+        public async Task<ActionResult<IEnumerable<RegraCashback>>> GetAll()
         {
             try
             {
-                IEnumerable<TipoHistorico> entities = await service.GetAll();
+                IEnumerable<RegraCashback> entities = await service.GetAll();
 
                 if (entities.ToList().Count <= 0)
                     return NotFound(new { message = MessageError.NotFound.Value });
@@ -85,7 +85,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Retorna um Tipo de Histórico por Id
+        /// Retorna uma Regra de Cashback por Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -96,11 +96,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet("{id}")]
-        public async Task<ActionResult<TipoHistorico>> GetById(int id)
+        public async Task<ActionResult<RegraCashback>> GetById(int id)
         {
             try
             {
-                TipoHistorico entity = await service.GetById(id);
+                RegraCashback entity = await service.GetById(id);
 
                 if (entity is null)
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
@@ -115,7 +115,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Criação de um novo Tipo Histórico
+        /// Criação de uma nova Regra de Cashback
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
@@ -126,7 +126,7 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpPost]
-        public async Task<ActionResult<TipoHistorico>> Post(TipoHistorico entity)
+        public async Task<ActionResult<RegraCashback>> Post(RegraCashback entity)
         {
             try
             {
@@ -138,13 +138,13 @@ namespace boticario.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
+                return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
         }
 
         /// <summary>
-        /// Atualiza um Tipo de Histórico por Id
+        /// Atualiza uma Regra de Cashback por Id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="entity"></param>
@@ -156,7 +156,7 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, TipoHistorico entity)
+        public async Task<IActionResult> Put(int id, RegraCashback entity)
         {
             try
             {
@@ -170,9 +170,9 @@ namespace boticario.API.Controllers
 
                 return NotFound(new { message = MessageError.NotFoundSingle.Value });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
+                return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
         }
