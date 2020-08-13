@@ -179,7 +179,12 @@ namespace boticario.Services
             Revendedor revendedor = await helperService.GetEntityAntiga<Revendedor>(entity.Id);
             string oldJson = JsonConvert.SerializeObject(revendedor);
 
-            entity.Senha = HashOptions.CreatePasswordHash(entity.Senha);
+
+            if (!string.IsNullOrEmpty(entity.Senha))
+                entity.Senha = HashOptions.CreatePasswordHash(entity.Senha);
+            else
+                entity.Senha = revendedor.Senha;
+
             entity.DataCriacao = revendedor.DataCriacao;
             entity.DataAlteracao = DateTime.Now;
 
