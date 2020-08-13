@@ -102,6 +102,7 @@ namespace boticario.Services
             TipoHistorico tipo = await helperService.GetEntityAntiga<TipoHistorico>(entity.Id);
             string oldJson = JsonConvert.SerializeObject(tipo);
 
+            entity.DataCriacao = tipo.DataCriacao;
             entity.DataAlteracao = DateTime.Now;
 
             string newJson = JsonConvert.SerializeObject(entity);

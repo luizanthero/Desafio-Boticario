@@ -101,6 +101,7 @@ namespace boticario.Services
             RegraCashback regra = await helperService.GetEntityAntiga<RegraCashback>(entity.Id);
             string oldJson = JsonConvert.SerializeObject(regra);
 
+            entity.DataCriacao = regra.DataCriacao;
             entity.DataAlteracao = DateTime.Now;
 
             string newJson = JsonConvert.SerializeObject(entity);

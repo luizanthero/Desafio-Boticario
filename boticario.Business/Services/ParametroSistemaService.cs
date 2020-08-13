@@ -99,6 +99,7 @@ namespace boticario.Services
             ParametroSistema parametro = await helperService.GetEntityAntiga<ParametroSistema>(entity.Id);
             string oldJson = JsonConvert.SerializeObject(parametro);
 
+            entity.DataCriacao = parametro.DataCriacao;
             entity.DataAlteracao = DateTime.Now;
 
             string newJson = JsonConvert.SerializeObject(entity);

@@ -177,6 +177,7 @@ namespace boticario.Services
             Revendedor revendedor = await helperService.GetEntityAntiga<Revendedor>(entity.Id);
             string oldJson = JsonConvert.SerializeObject(revendedor);
 
+            entity.DataCriacao = revendedor.DataCriacao;
             entity.DataAlteracao = DateTime.Now;
 
             string newJson = JsonConvert.SerializeObject(entity);

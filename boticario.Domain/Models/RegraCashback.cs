@@ -23,7 +23,7 @@ namespace boticario.Models
         public bool? Ativo { get; set; } = true;
 
         [JsonIgnore]
-        public DateTime DataCriacao { get; set; } = DateTime.Now;
+        public DateTime DataCriacao { get; set; }
 
         [JsonIgnore]
         public DateTime DataAlteracao { get; set; }

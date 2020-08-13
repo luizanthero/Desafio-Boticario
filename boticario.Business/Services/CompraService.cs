@@ -101,6 +101,7 @@ namespace boticario.Services
             Compra compra = await helperService.GetEntityAntiga<Compra>(entity.Id);
             string oldJson = JsonConvert.SerializeObject(compra);
 
+            entity.DataCriacao = compra.DataCriacao;
             entity.DataAlteracao = DateTime.Now;
 
             string newJson = JsonConvert.SerializeObject(entity);
