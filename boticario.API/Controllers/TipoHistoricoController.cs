@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using boticario.API.Interfaces;
 using boticario.Helpers.Enums;
 using boticario.Models;
 using boticario.Options;
@@ -15,7 +16,7 @@ namespace boticario.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class TipoHistoricoController : ControllerBase
+    public class TipoHistoricoController : ControllerBase, IController<TipoHistorico>
     {
         private readonly TipoHistoricoService service;
 
