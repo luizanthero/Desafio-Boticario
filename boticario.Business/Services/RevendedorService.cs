@@ -38,6 +38,9 @@ namespace boticario.Services
         {
             try
             {
+                if (string.IsNullOrEmpty(entity.Senha))
+                    throw new Exception(MessageError.PasswordNullorEmpty.Value);
+
                 entity.Senha = HashOptions.CreatePasswordHash(entity.Senha);
 
                 context.Revendedores.Add(entity);
@@ -104,6 +107,9 @@ namespace boticario.Services
         {
             try
             {
+                if (string.IsNullOrEmpty(entity.Senha))
+                    throw new Exception(MessageError.PasswordNullorEmpty.Value);
+
                 entity.Senha = HashOptions.CreatePasswordHash(entity.Senha);
 
                 context.Revendedores.Add(entity);

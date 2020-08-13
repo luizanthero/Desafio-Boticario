@@ -12,6 +12,7 @@
         public static MessageError BadRequest { get { return new MessageError("Informação enviada inválida!"); } }
         public static MessageError UserPasswordInvalid { get { return new MessageError("Email ou Senha incorretos!"); } }
         public static MessageError DifferentIds { get { return new MessageError("Id do Obejto Json e do Paramêtro precisam ser iguais!"); } }
+        public static MessageError PasswordNullorEmpty { get { return new MessageError("Senha é um campo obrigatório!"); } }
     }
 
     public class MessageSuccess
