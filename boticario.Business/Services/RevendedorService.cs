@@ -104,6 +104,8 @@ namespace boticario.Services
         {
             try
             {
+                entity.Senha = HashOptions.CreatePasswordHash(entity.Senha);
+
                 context.Revendedores.Add(entity);
 
                 await context.SaveChangesAsync();
@@ -177,6 +179,7 @@ namespace boticario.Services
             Revendedor revendedor = await helperService.GetEntityAntiga<Revendedor>(entity.Id);
             string oldJson = JsonConvert.SerializeObject(revendedor);
 
+            entity.Senha = HashOptions.CreatePasswordHash(entity.Senha);
             entity.DataCriacao = revendedor.DataCriacao;
             entity.DataAlteracao = DateTime.Now;
 
