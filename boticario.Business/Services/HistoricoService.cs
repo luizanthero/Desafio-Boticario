@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace boticario.Services
@@ -57,6 +58,15 @@ namespace boticario.Services
 
         public async Task<Historico> GetById(int id)
             => await context.Historicos.FirstOrDefaultAsync(item => item.Id.Equals(id));
+
+        public async Task<IEnumerable<Historico>> GetByNomeTabela(string nomeTabela)
+            => await context.Historicos.Where(item => item.NomeTabela.Equals(nomeTabela)).ToListAsync();
+
+        public async Task<IEnumerable<Historico>> GetByChaveTabela(int chaveTabela)
+            => await context.Historicos.Where(item => item.ChaveTabela.Equals(chaveTabela)).ToListAsync();
+
+        public async Task<IEnumerable<Historico>> GetByTabelaChave(string nomeTabela, int chaveTabela)
+            => await context.Historicos.Where(item => item.NomeTabela.Equals(nomeTabela) && item.ChaveTabela.Equals(chaveTabela)).ToListAsync();
 
         public async Task<bool> IsExist(int id)
             => await context.Historicos.AnyAsync(item => item.Id.Equals(id));

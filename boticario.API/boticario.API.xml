@@ -94,6 +94,71 @@
             <response code="404">Registro não encontrado</response>
             <response code="500">Erro Interno no servidor</response>
         </member>
+        <member name="M:boticario.API.Controllers.HistoricoController.GetAll">
+            <summary>
+            Retorna todos os Históricos
+            </summary>
+            <returns></returns>
+            <response code="200">Sucesso ao buscar todos os registros</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.HistoricoController.GetById(System.Int32)">
+            <summary>
+            Retorna um Histórico por Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao buscar registro</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.HistoricoController.GetByNomeTabela(System.String)">
+            <summary>
+            Retorna todos os Históricos pelo Nome da Tabela
+            </summary>
+            <param name="nomeTabela"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao buscar todos os registros</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.HistoricoController.GetByChaveTabela(System.Int32)">
+            <summary>
+            Retorna todos os Históricos pela Chave da Tabela
+            </summary>
+            <param name="chaveTabela"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao buscar todos os registros</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
+        <member name="M:boticario.API.Controllers.HistoricoController.GetByTabelaChave(System.String,System.Int32)">
+            <summary>
+            Retorna todos os Históricos pelo Nome e Chave da Tabela
+            </summary>
+            <param name="nomeTabela"></param>
+            <param name="chaveTabela"></param>
+            <returns></returns>
+            <response code="200">Sucesso ao buscar todos os registros</response>
+            <response code="400">Informação enviada inválida</response>
+            <response code="401">Sem autorização</response>
+            <response code="403">Acesso negado</response>
+            <response code="404">Registro não encontrado</response>
+            <response code="500">Erro Interno no servidor</response>
+        </member>
         <member name="M:boticario.API.Controllers.ParametroSistemaController.Delete(System.Int32)">
             <summary>
             Exclui um Parâmetro do Sistema por Id
