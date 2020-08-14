@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using boticario.Helpers.Enums;
 using boticario.Models;
 using boticario.Services;
+using boticario.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace boticario.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class HistoricoController : ControllerBase
     {
         private readonly HistoricoService service;
@@ -34,11 +35,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Historico>>> GetAll()
+        public async Task<ActionResult<IEnumerable<HistoricoViewModel>>> GetAll()
         {
             try
             {
-                IEnumerable<Historico> entities = await service.GetAll();
+                IEnumerable<HistoricoViewModel> entities = await service.GetAll();
 
                 if (entities.ToList().Count <= 0)
                     return NotFound(new { message = MessageError.NotFound.Value });
@@ -64,11 +65,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Historico>> GetById(int id)
+        public async Task<ActionResult<HistoricoViewModel>> GetById(int id)
         {
             try
             {
-                Historico entity = await service.GetById(id);
+                HistoricoViewModel entity = await service.GetById(id);
 
                 if (entity is null)
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
@@ -94,11 +95,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet("NomeTabela/{nomeTabela}")]
-        public async Task<ActionResult<IEnumerable<Historico>>> GetByNomeTabela(string nomeTabela)
+        public async Task<ActionResult<IEnumerable<HistoricoViewModel>>> GetByNomeTabela(string nomeTabela)
         {
             try
             {
-                IEnumerable<Historico> entities = await service.GetByNomeTabela(nomeTabela);
+                IEnumerable<HistoricoViewModel> entities = await service.GetByNomeTabela(nomeTabela);
 
                 if (entities is null)
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
@@ -124,11 +125,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet("ChaveTabela/{chaveTabela}")]
-        public async Task<ActionResult<IEnumerable<Historico>>> GetByChaveTabela(int chaveTabela)
+        public async Task<ActionResult<IEnumerable<HistoricoViewModel>>> GetByChaveTabela(int chaveTabela)
         {
             try
             {
-                IEnumerable<Historico> entities = await service.GetByChaveTabela(chaveTabela);
+                IEnumerable<HistoricoViewModel> entities = await service.GetByChaveTabela(chaveTabela);
 
                 if (entities is null)
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
@@ -155,11 +156,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet("{nomeTabela}/{chaveTabela}")]
-        public async Task<ActionResult<IEnumerable<Historico>>> GetByTabelaChave(string nomeTabela, int chaveTabela)
+        public async Task<ActionResult<IEnumerable<HistoricoViewModel>>> GetByTabelaChave(string nomeTabela, int chaveTabela)
         {
             try
             {
-                IEnumerable<Historico> entities = await service.GetByTabelaChave(nomeTabela, chaveTabela);
+                IEnumerable<HistoricoViewModel> entities = await service.GetByTabelaChave(nomeTabela, chaveTabela);
 
                 if (entities is null)
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
