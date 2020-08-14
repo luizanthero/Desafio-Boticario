@@ -111,6 +111,7 @@ namespace boticario.API
 
             services.AddScoped<RegrasCompra>();
 
+            services.AddScoped<CashbackService>();
             services.AddScoped<CompraService>();
             services.AddScoped<HistoricoService>();
             services.AddScoped<ParametroSistemaService>();
