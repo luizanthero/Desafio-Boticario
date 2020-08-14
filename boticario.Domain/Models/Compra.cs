@@ -16,20 +16,25 @@ namespace boticario.Models
         public int IdRevendedor { get; set; }
         public virtual Revendedor Revendedor { get; set; }
 
-        [Required]
         [ForeignKey("Id")]
+        [JsonIgnore]
         public int IdStatus { get; set; }
         public virtual StatusCompra Status { get; set; }
 
+        [Required]
         public string Codigo { get; set; }
 
-        public int Valor { get; set; }
+        [Required]
+        public double Valor { get; set; }
+
+        [Required]
+        public string CpfRevendedor { get; set; }
 
         public DateTime DataCompra { get; set; }
 
-        public int PercentualCashback { get; set; }
+        public double PercentualCashback { get; set; }
 
-        public int ValorCashback { get; set; }
+        public double ValorCashback { get; set; }
 
         public bool? Ativo { get; set; } = true;
 

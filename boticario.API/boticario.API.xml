@@ -67,7 +67,7 @@
             <response code="404">Registro não encontrado</response>
             <response code="500">Erro Interno no servidor</response>
         </member>
-        <member name="M:boticario.API.Controllers.CompraController.Post(boticario.Models.Compra)">
+        <member name="M:boticario.API.Controllers.CompraController.Post(boticario.ViewModels.CompraCreateViewModel)">
             <summary>
             Criação de uma nova Compra
             </summary>

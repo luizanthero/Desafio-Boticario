@@ -10,7 +10,7 @@ using boticario.Models;
 namespace boticario.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200812213028_InitialCreate")]
+    [Migration("20200814171015_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,11 @@ namespace boticario.API.Migrations
                         .HasDefaultValue(true);
 
                     b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CpfRevendedor")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DataAlteracao")
@@ -54,14 +59,14 @@ namespace boticario.API.Migrations
                     b.Property<int>("IdStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("PercentualCashback")
-                        .HasColumnType("int");
+                    b.Property<double>("PercentualCashback")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Valor")
-                        .HasColumnType("int");
+                    b.Property<double>("Valor")
+                        .HasColumnType("float");
 
-                    b.Property<int>("ValorCashback")
-                        .HasColumnType("int");
+                    b.Property<double>("ValorCashback")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -168,10 +173,14 @@ namespace boticario.API.Migrations
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int>("Fim")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Inicio")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Percentual")
                         .HasColumnType("int");
@@ -214,7 +223,6 @@ namespace boticario.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Senha")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

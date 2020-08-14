@@ -43,6 +43,8 @@ namespace boticario.Models
             {
                 entity.Property(item => item.Ativo).HasDefaultValue(true);
                 entity.Property(item => item.DataCriacao).HasDefaultValueSql("GETDATE()");
+                entity.Property(item => item.Inicio).HasDefaultValue(0);
+                entity.Property(item => item.Fim).HasDefaultValue(0);
             });
             builder.Entity<Revendedor>(entity =>
             {

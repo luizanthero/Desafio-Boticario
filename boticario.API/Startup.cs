@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using boticario.Business;
 using boticario.Helpers;
 using boticario.Helpers.Security;
 using boticario.Models;
@@ -107,6 +108,8 @@ namespace boticario.API
 
             services.AddScoped<SettingsOptions>();
             services.AddScoped<HelperService>();
+
+            services.AddScoped<RegrasCompra>();
 
             services.AddScoped<CompraService>();
             services.AddScoped<HistoricoService>();

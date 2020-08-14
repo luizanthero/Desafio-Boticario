@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using boticario.API.Interfaces;
 using boticario.Helpers.Enums;
 using boticario.Models;
 using boticario.Options;
 using boticario.Services;
+using boticario.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ namespace boticario.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class CompraController : ControllerBase, IController<Compra>
+    public class CompraController : ControllerBase
     {
         private readonly CompraService service;
 
@@ -66,11 +66,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Compra>>> GetAll()
+        public async Task<ActionResult<IEnumerable<CompraViewModel>>> GetAll()
         {
             try
             {
-                IEnumerable<Compra> entities = await service.GetAll();
+                IEnumerable<CompraViewModel> entities = await service.GetAll();
 
                 if (entities.ToList().Count <= 0)
                     return NotFound(new { message = MessageError.NotFound.Value });
@@ -96,11 +96,11 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Compra>> GetById(int id)
+        public async Task<ActionResult<CompraViewModel>> GetById(int id)
         {
             try
             {
-                Compra entity = await service.GetById(id);
+                CompraViewModel entity = await service.GetById(id);
 
                 if (entity is null)
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
@@ -126,13 +126,21 @@ namespace boticario.API.Controllers
         /// <response code="404">Registro não encontrado</response>
         /// <response code="500">Erro Interno no servidor</response>
         [HttpPost]
-        public async Task<ActionResult<Compra>> Post(Compra entity)
+        public async Task<ActionResult<Compra>> Post(CompraCreateViewModel entity)
         {
             try
             {
                 string usuario = UserTokenOptions.GetClaimTypesNameValue(User.Identity);
 
-                entity = await service.Create(entity, usuario);
+                Compra compra = new Compra
+                {
+                    Codigo = entity.Codigo,
+                    Valor = entity.Valor,
+                    DataCompra = entity.Data,
+                    CpfRevendedor = entity.CpfRevendedor
+                };
+
+                compra = await service.Create(compra, usuario);
 
                 return Ok(entity);
             }

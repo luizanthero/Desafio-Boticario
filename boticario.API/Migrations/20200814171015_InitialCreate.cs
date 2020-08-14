@@ -35,8 +35,8 @@ namespace boticario.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Inicio = table.Column<int>(nullable: false),
-                    Fim = table.Column<int>(nullable: false),
+                    Inicio = table.Column<int>(nullable: false, defaultValue: 0),
+                    Fim = table.Column<int>(nullable: false, defaultValue: 0),
                     Percentual = table.Column<int>(nullable: false),
                     Ativo = table.Column<bool>(nullable: true, defaultValue: true),
                     DataCriacao = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
@@ -57,7 +57,7 @@ namespace boticario.API.Migrations
                     Nome = table.Column<string>(nullable: false),
                     Cpf = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
-                    Senha = table.Column<string>(nullable: false),
+                    Senha = table.Column<string>(nullable: true),
                     Ativo = table.Column<bool>(nullable: true, defaultValue: true),
                     DataCriacao = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     DataAlteracao = table.Column<DateTime>(nullable: false)
@@ -110,11 +110,12 @@ namespace boticario.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdRevendedor = table.Column<int>(nullable: false),
                     IdStatus = table.Column<int>(nullable: false),
-                    Codigo = table.Column<string>(nullable: true),
-                    Valor = table.Column<int>(nullable: false),
+                    Codigo = table.Column<string>(nullable: false),
+                    Valor = table.Column<double>(nullable: false),
+                    CpfRevendedor = table.Column<string>(nullable: false),
                     DataCompra = table.Column<DateTime>(nullable: false),
-                    PercentualCashback = table.Column<int>(nullable: false),
-                    ValorCashback = table.Column<int>(nullable: false),
+                    PercentualCashback = table.Column<double>(nullable: false),
+                    ValorCashback = table.Column<double>(nullable: false),
                     Ativo = table.Column<bool>(nullable: true, defaultValue: true),
                     DataCriacao = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     DataAlteracao = table.Column<DateTime>(nullable: false)

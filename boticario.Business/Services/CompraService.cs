@@ -1,7 +1,8 @@
-﻿using boticario.Business.Interfaces;
+﻿using boticario.Business;
 using boticario.Helpers;
 using boticario.Helpers.Enums;
 using boticario.Models;
+using boticario.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
@@ -11,23 +12,35 @@ using System.Threading.Tasks;
 
 namespace boticario.Services
 {
-    public class CompraService : IRepository<Compra>
+    public class CompraService
     {
         private readonly AppDbContext context;
         private readonly HistoricoService historicoService;
         private readonly HelperService helperService;
 
-        public CompraService(AppDbContext context, HistoricoService historicoService, HelperService helperService)
+        private readonly RegrasCompra regrasCompra;
+
+        public CompraService(AppDbContext context, HistoricoService historicoService, HelperService helperService, 
+            RegrasCompra regrasCompra)
         {
             this.context = context;
             this.historicoService = historicoService;
             this.helperService = helperService;
+            this.regrasCompra = regrasCompra;
         }
 
         public async Task<Compra> Create(Compra entity, string usuario)
         {
             try
             {
+                entity.IdRevendedor = 1;
+
+                entity.IdStatus = await regrasCompra.GetStatusCompraId(entity.CpfRevendedor);
+
+                entity.PercentualCashback = await regrasCompra.GetPercentualCashback(entity.Valor);
+
+                entity.ValorCashback = (entity.PercentualCashback / 100) * entity.Valor;
+
                 context.Compras.Add(entity);
 
                 await context.SaveChangesAsync();
@@ -87,11 +100,37 @@ namespace boticario.Services
             }
         }
 
-        public async Task<IEnumerable<Compra>> GetAll()
-            => await context.Compras.Where(item => (bool)item.Ativo).ToListAsync();
+        public async Task<IEnumerable<CompraViewModel>> GetAll()
+            => await context.Compras
+                .Include(item => item.Revendedor).Include(item => item.Status)
+                .Where(item => (bool)item.Ativo).Select(item => new CompraViewModel
+                {
+                    Codigo = item.Codigo,
+                    Valor = item.Valor,
+                    Data = item.DataCompra,
+                    PercentualCashback = item.PercentualCashback,
+                    ValorCashback = item.ValorCashback,
+                    Status = item.Status.Descricao,
+                    CpfUsadoCompra = item.CpfRevendedor,
+                    NomeRevendedor = item.Revendedor.Nome,
+                    CpfRevendedor = item.Revendedor.Cpf
+                }).ToListAsync();
 
-        public async Task<Compra> GetById(int id)
-            => await context.Compras.FirstOrDefaultAsync(item => item.Id.Equals(id));
+        public async Task<CompraViewModel> GetById(int id)
+            => await context.Compras
+                .Include(item => item.Revendedor).Include(item => item.Status)
+                .Where(item => item.Id.Equals(id)).Select(item => new CompraViewModel
+                {
+                    Codigo = item.Codigo,
+                    Valor = item.Valor,
+                    Data = item.DataCompra,
+                    PercentualCashback = item.PercentualCashback,
+                    ValorCashback = item.ValorCashback,
+                    Status = item.Status.Descricao,
+                    CpfUsadoCompra = item.CpfRevendedor,
+                    NomeRevendedor = item.Revendedor.Nome,
+                    CpfRevendedor = item.Revendedor.Cpf
+                }).FirstOrDefaultAsync();
 
         public async Task<bool> IsExist(int id)
             => await context.Compras.AnyAsync(item => item.Id.Equals(id));
