@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using boticario.Helpers.Enums;
-using boticario.Models;
 using boticario.Services;
 using boticario.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +13,7 @@ namespace boticario.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class HistoricoController : ControllerBase
     {
         private readonly HistoricoService service;
