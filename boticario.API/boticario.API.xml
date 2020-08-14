@@ -6,7 +6,7 @@
     <members>
         <member name="M:boticario.API.Controllers.AutenticacaoController.Register(boticario.Models.Revendedor)">
             <summary>
-            Registra um novo Revendedor no Sistema
+            Registra um novo Revendedor no Sistema (Rota Desafio Boticário)
             </summary>
             <param name="revendedor"></param>
             <returns></returns>
@@ -21,7 +21,7 @@
         </member>
         <member name="M:boticario.API.Controllers.AutenticacaoController.Authentication(boticario.ViewModels.AuthenticationViewModel)">
             <summary>
-            Autentica um Revendedor
+            Autentica um Revendedor (Rota Desafio Boticário)
             </summary>
             <param name="auth"></param>
             <returns></returns>
@@ -44,7 +44,7 @@
         </member>
         <member name="M:boticario.API.Controllers.CompraController.GetAll">
             <summary>
-            Retorna todas as Compras
+            Retorna todas as Compras (Rota Desafio Boticário)
             </summary>
             <returns></returns>
             <response code="200">Sucesso ao buscar todos os registros</response>
@@ -56,7 +56,7 @@
         </member>
         <member name="M:boticario.API.Controllers.CompraController.GetById(System.Int32)">
             <summary>
-            Retorna uma Compra por Id
+            Retorna uma Compra por Id (Rota Desafio Boticário)
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -69,7 +69,7 @@
         </member>
         <member name="M:boticario.API.Controllers.CompraController.Post(boticario.ViewModels.CompraCreateViewModel)">
             <summary>
-            Criação de uma nova Compra
+            Criação de uma nova Compra (Rota Desafio Boticário)
             </summary>
             <param name="entity"></param>
             <returns></returns>
