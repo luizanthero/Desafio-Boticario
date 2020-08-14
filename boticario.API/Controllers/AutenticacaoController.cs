@@ -21,7 +21,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Registra um novo Revendedor no Sistema
+        /// Registra um novo Revendedor no Sistema (Rota Desafio Boticário)
         /// </summary>
         /// <param name="revendedor"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Autentica um Revendedor
+        /// Autentica um Revendedor (Rota Desafio Boticário)
         /// </summary>
         /// <param name="auth"></param>
         /// <returns></returns>

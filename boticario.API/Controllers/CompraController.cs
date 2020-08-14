@@ -56,7 +56,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Retorna todas as Compras
+        /// Retorna todas as Compras (Rota Desafio Boticário)
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Sucesso ao buscar todos os registros</response>
@@ -85,7 +85,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Retorna uma Compra por Id
+        /// Retorna uma Compra por Id (Rota Desafio Boticário)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -115,7 +115,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Criação de uma nova Compra
+        /// Criação de uma nova Compra (Rota Desafio Boticário)
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
