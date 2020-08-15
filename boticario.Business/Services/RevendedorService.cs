@@ -128,7 +128,7 @@ namespace boticario.Services
 
                 SecurityToken stringToken = tokenHandler.CreateToken(tokenDescriptor);
 
-                logger.LogWarning((int)LogEventEnum.Events.GetItem,
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
                     $"{email} | {serviceName}: {methodName} - {MessageLog.Getted.Value}");
 
                 return tokenHandler.WriteToken(stringToken);
