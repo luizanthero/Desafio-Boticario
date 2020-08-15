@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using boticario.Logging;
 using boticario.Business;
 using boticario.Helpers;
 using boticario.Helpers.Security;
@@ -15,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -122,12 +124,17 @@ namespace boticario.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            loggerFactory.AddProvider(new AppLoggerProvider(new AppLoggerProviderConfiguration
+            {
+                LogLevel = LogLevel.Information
+            }));
 
             SwaggerOptions swagger = new SwaggerOptions();
             Configuration.GetSection(nameof(SwaggerOptions)).Bind(swagger);
