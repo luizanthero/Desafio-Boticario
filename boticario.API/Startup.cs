@@ -131,6 +131,8 @@ namespace boticario.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<AppLoggerProvider>();
+
             loggerFactory.AddProvider(new AppLoggerProvider(new AppLoggerProviderConfiguration
             {
                 LogLevel = LogLevel.Information
