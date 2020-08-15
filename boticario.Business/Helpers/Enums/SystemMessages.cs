@@ -49,6 +49,8 @@
         public static MessageLog GettingList { get { return new MessageLog("Buscando lista de registros na Base de Dados..."); } }
         public static MessageLog Getted { get { return new MessageLog("Registro(s) encontrado!"); } }
 
+        public static MessageLog GettingOldEntity { get { return new MessageLog("Buscando objeto antigo!"); } }
+
         public static MessageLog Error { get { return new MessageLog("Erro durante a execução do processo!"); } }
     }
 }
