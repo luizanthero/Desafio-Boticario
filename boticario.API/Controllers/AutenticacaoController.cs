@@ -84,11 +84,16 @@ namespace boticario.API.Controllers
 
                 string token = await service.Authentication(auth.Email, auth.Senha);
 
+                if (string.IsNullOrEmpty(token))
+                {
+                    logger.LogWarning((int)LogEventEnum.Events.GetItem,
+                        $"{auth.Email} | {controllerName}: {endpointName} - {MessageError.UserPasswordInvalid.Value}");
+
+                    return BadRequest(new { message = MessageError.UserPasswordInvalid.Value });
+                }
+
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
                     $"{auth.Email} | {controllerName}: {endpointName} - {MessageLog.Stop.Value} | Token: {token}");
-
-                if (string.IsNullOrEmpty(token))
-                    return BadRequest(new { message = MessageError.UserPasswordInvalid.Value });
 
                 return Ok(token);
             }
