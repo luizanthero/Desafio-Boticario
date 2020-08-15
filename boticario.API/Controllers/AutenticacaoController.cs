@@ -6,6 +6,7 @@ using boticario.Services;
 using boticario.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace boticario.API.Controllers
 {
@@ -14,10 +15,14 @@ namespace boticario.API.Controllers
     public class AutenticacaoController : ControllerBase
     {
         private readonly RevendedorService service;
+        private readonly ILogger<AutenticacaoController> logger;
 
-        public AutenticacaoController(RevendedorService service)
+        private readonly string controllerName = nameof(AutenticacaoController);
+
+        public AutenticacaoController(RevendedorService service, ILogger<AutenticacaoController> logger)
         {
             this.service = service;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -36,14 +41,25 @@ namespace boticario.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<Revendedor>> Register(Revendedor revendedor)
         {
+            const string endpointName = nameof(Register);
+
             try
             {
+                logger.LogInformation((int)LogEventEnum.Events.InsertItem, 
+                    $"{revendedor.Email} | {controllerName}: {endpointName} - {MessageLog.Start.Value}");
+
                 Revendedor result = await service.Register(revendedor);
+
+                logger.LogInformation((int)LogEventEnum.Events.InsertItem,
+                    $"{revendedor.Email} | {controllerName}: {endpointName} - {MessageLog.Stop.Value}");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.InsertItemError, ex, 
+                    $"{revendedor.Email} | {controllerName}: {endpointName} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError, 
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
@@ -60,9 +76,16 @@ namespace boticario.API.Controllers
         [HttpPost("authenticate")]
         public async Task<ActionResult<string>> Authentication(AuthenticationViewModel auth)
         {
+            const string endpointName = nameof(Authentication);
             try
             {
-                var token = await service.Authentication(auth.Email, auth.Senha);
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{auth.Email} | {controllerName}: {endpointName} - {MessageLog.Start.Value}");
+
+                string token = await service.Authentication(auth.Email, auth.Senha);
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{auth.Email} | {controllerName}: {endpointName} - {MessageLog.Stop.Value} | Token: {token}");
 
                 if (string.IsNullOrEmpty(token))
                     return BadRequest(new { message = MessageError.UserPasswordInvalid.Value });
@@ -71,6 +94,9 @@ namespace boticario.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.GetItemError, ex,
+                    $"{auth.Email} | {controllerName}: {endpointName} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError, 
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
