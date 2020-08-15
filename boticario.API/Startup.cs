@@ -89,7 +89,7 @@ namespace boticario.API
 
                 item.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme.",
+                    Description = "Autenticação via JWT Token usando esquema Bearer (Ex: 'bearer {token}')",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,

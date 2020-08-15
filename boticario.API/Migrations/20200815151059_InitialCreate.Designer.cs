@@ -10,7 +10,7 @@ using boticario.Models;
 namespace boticario.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200814171015_InitialCreate")]
+    [Migration("20200815151059_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -85,7 +85,7 @@ namespace boticario.API.Controllers
         }
 
         /// <summary>
-        /// Retorna uma Compra por Id (Rota Desafio Boticário)
+        /// Retorna uma Compra por Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

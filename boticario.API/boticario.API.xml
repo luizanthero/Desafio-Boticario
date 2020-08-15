@@ -69,7 +69,7 @@
         </member>
         <member name="M:boticario.API.Controllers.CompraController.GetById(System.Int32)">
             <summary>
-            Retorna uma Compra por Id (Rota Desafio Boticário)
+            Retorna uma Compra por Id
             </summary>
             <param name="id"></param>
             <returns></returns>
