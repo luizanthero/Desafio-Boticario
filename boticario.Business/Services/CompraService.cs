@@ -19,6 +19,7 @@ namespace boticario.Services
         private readonly HelperService helperService;
 
         private readonly RegrasCompra regrasCompra;
+        private object email;
 
         public CompraService(AppDbContext context, HistoricoService historicoService, HelperService helperService, 
             RegrasCompra regrasCompra)
@@ -33,7 +34,13 @@ namespace boticario.Services
         {
             try
             {
-                entity.IdRevendedor = 1;
+                Revendedor revendedor = await context.Revendedores.AsNoTracking()
+                    .SingleOrDefaultAsync(item => item.Email.Equals(usuario));
+
+                if (revendedor is null)
+                    return null;
+
+                entity.IdRevendedor = revendedor.Id;
 
                 entity.IdStatus = await regrasCompra.GetStatusCompraId(entity.CpfRevendedor);
 
