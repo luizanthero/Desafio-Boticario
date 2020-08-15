@@ -42,16 +42,17 @@ namespace boticario.Services
         public async Task<Revendedor> Register(Revendedor entity)
         {
             const string methodName = nameof(Register);
+            string header = $"METHOD | {entity.Email} | {serviceName}: {methodName}";
 
             try
             {
                 logger.LogInformation((int)LogEventEnum.Events.InsertItem,
-                    $"{entity.Email} | {serviceName}: {methodName} - {MessageLog.Saving.Value}");
+                    $"{header} - {MessageLog.Saving.Value}");
 
                 if (string.IsNullOrEmpty(entity.Senha))
                 {
                     logger.LogWarning((int)LogEventEnum.Events.GetItemNotFound,
-                        $"{entity.Email} | {serviceName}: {methodName} - {MessageError.PasswordNullorEmpty.Value}");
+                        $"{header} - {MessageError.PasswordNullorEmpty.Value}");
 
                     throw new Exception(MessageError.PasswordNullorEmpty.Value);
                 }
@@ -63,7 +64,7 @@ namespace boticario.Services
                 await context.SaveChangesAsync();
 
                 logger.LogInformation((int)LogEventEnum.Events.InsertItem,
-                    $"{entity.Email} | {serviceName}: {methodName} - {MessageLog.Saved.Value} | ID: {entity.Id}");
+                    $"{header} - {MessageLog.Saved.Value} | ID: {entity.Id}");
 
                 string json = JsonConvert.SerializeObject(entity);
 
@@ -88,18 +89,19 @@ namespace boticario.Services
         public async Task<string> Authentication(string email, string senha)
         {
             const string methodName = nameof(Authentication);
+            string header = $"METHOD | {email} | {serviceName}: {methodName}";
 
             try
             {
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
-                    $"{email} | {serviceName}: {methodName} - {MessageLog.Getting.Value}");
+                    $"{header} - {MessageLog.Getting.Value}");
 
                 Revendedor revendedor = await context.Revendedores.SingleOrDefaultAsync(item => item.Email.Equals(email));
 
                 if (revendedor is null)
                 {
                     logger.LogWarning((int)LogEventEnum.Events.GetItem,
-                        $"{email} | {serviceName}: {methodName} - {MessageError.NotFoundSingle.Value}");
+                        $"{header} - {MessageError.NotFoundSingle.Value}");
 
                     return string.Empty;
                 }
@@ -107,7 +109,7 @@ namespace boticario.Services
                 if (!HashOptions.VerifyPasswordHash(senha, revendedor.Senha))
                 {
                     logger.LogWarning((int)LogEventEnum.Events.GetItem,
-                        $"{email} | {serviceName}: {methodName} - {MessageError.NotFoundSingle.Value}");
+                        $"{header} - {MessageError.NotFoundSingle.Value}");
 
                     return string.Empty;
                 }
@@ -129,7 +131,7 @@ namespace boticario.Services
                 SecurityToken stringToken = tokenHandler.CreateToken(tokenDescriptor);
 
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
-                    $"{email} | {serviceName}: {methodName} - {MessageLog.Getted.Value}");
+                    $"{header} - {MessageLog.Getted.Value}");
 
                 return tokenHandler.WriteToken(stringToken);
             }

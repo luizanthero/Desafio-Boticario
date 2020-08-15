@@ -42,23 +42,24 @@ namespace boticario.API.Controllers
         public async Task<ActionResult<Revendedor>> Register(Revendedor revendedor)
         {
             const string endpointName = nameof(Register);
+            string header = $"POST | {revendedor.Email} | {controllerName}: {endpointName}";
 
             try
             {
                 logger.LogInformation((int)LogEventEnum.Events.InsertItem, 
-                    $"{revendedor.Email} | {controllerName}: {endpointName} - {MessageLog.Start.Value}");
+                    $"{header} - {MessageLog.Start.Value}");
 
                 Revendedor result = await service.Register(revendedor);
 
                 logger.LogInformation((int)LogEventEnum.Events.InsertItem,
-                    $"{revendedor.Email} | {controllerName}: {endpointName} - {MessageLog.Stop.Value}");
+                    $"{header} - {MessageLog.Stop.Value}");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 logger.LogError((int)LogEventEnum.Events.InsertItemError, ex, 
-                    $"{revendedor.Email} | {controllerName}: {endpointName} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, 
                     new { message = MessageError.InternalError.Value, error = ex.Message });
@@ -77,30 +78,32 @@ namespace boticario.API.Controllers
         public async Task<ActionResult<string>> Authentication(AuthenticationViewModel auth)
         {
             const string endpointName = nameof(Authentication);
+            string header = $"POST | {auth.Email} | {controllerName}: {endpointName}";
+
             try
             {
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
-                    $"{auth.Email} | {controllerName}: {endpointName} - {MessageLog.Start.Value}");
+                    $"{header} - {MessageLog.Start.Value}");
 
                 string token = await service.Authentication(auth.Email, auth.Senha);
 
                 if (string.IsNullOrEmpty(token))
                 {
                     logger.LogWarning((int)LogEventEnum.Events.GetItem,
-                        $"{auth.Email} | {controllerName}: {endpointName} - {MessageError.UserPasswordInvalid.Value}");
+                        $"{header} - {MessageError.UserPasswordInvalid.Value}");
 
                     return BadRequest(new { message = MessageError.UserPasswordInvalid.Value });
                 }
 
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
-                    $"{auth.Email} | {controllerName}: {endpointName} - {MessageLog.Stop.Value} | Token: {token}");
+                    $"{header} - {MessageLog.Stop.Value} | Token: {token}");
 
                 return Ok(token);
             }
             catch (Exception ex)
             {
                 logger.LogError((int)LogEventEnum.Events.GetItemError, ex,
-                    $"{auth.Email} | {controllerName}: {endpointName} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, 
                     new { message = MessageError.InternalError.Value, error = ex.Message });
