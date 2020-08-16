@@ -10,6 +10,7 @@ using boticario.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace boticario.API.Controllers
 {
@@ -19,10 +20,14 @@ namespace boticario.API.Controllers
     public class StatusCompraController : ControllerBase, IController<StatusCompra>
     {
         private readonly StatusCompraService service;
+        private readonly ILogger<StatusCompraController> logger;
 
-        public StatusCompraController(StatusCompraService service)
+        private readonly string controllerName = nameof(StatusCompraController);
+
+        public StatusCompraController(StatusCompraService service, ILogger<StatusCompraController> logger)
         {
             this.service = service;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -39,17 +44,34 @@ namespace boticario.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            string usuario = UserTokenOptions.GetClaimTypesNameValue(User.Identity);
+
+            const string endpointName = nameof(Delete);
+            string header = $"DELETE | {usuario} | {controllerName}: {endpointName}";
+
             try
             {
-                string usuario = UserTokenOptions.GetClaimTypesNameValue(User.Identity);
+                logger.LogInformation((int)LogEventEnum.Events.DeleteItem,
+                    $"{header} - {MessageLog.Start.Value}");
 
                 if (await service.DeleteById(id, usuario))
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.DeleteItem,
+                        $"{header} - {MessageLog.Stop.Value}");
+
                     return Ok(new { message = MessageSuccess.Delete.Value });
+                }
+
+                logger.LogWarning((int)LogEventEnum.Events.DeleteItemNotFound,
+                    $"{header} - {MessageError.BadRequest.Value}");
 
                 return BadRequest(new { message = MessageError.BadRequest.Value });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.DeleteItemError,
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
@@ -68,17 +90,34 @@ namespace boticario.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StatusCompra>>> GetAll()
         {
+            const string endpointName = nameof(GetAll);
+            string header = $"GET | {UserTokenOptions.GetClaimTypesNameValue(User.Identity)} | {controllerName}: {endpointName}";
+
             try
             {
-                IEnumerable<StatusCompra> entities = await service.GetAll();
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Start.Value}");
+
+                IEnumerable<StatusCompra> entities = await service.GetAll(UserTokenOptions.GetClaimTypesNameValue(User.Identity));
 
                 if (entities.ToList().Count <= 0)
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.GetItemNotFound,
+                        $"{header} - {MessageError.NotFound.Value}");
+
                     return NotFound(new { message = MessageError.NotFound.Value });
+                }
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Stop.Value}");
 
                 return Ok(entities);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.GetItemError, ex,
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
@@ -98,17 +137,34 @@ namespace boticario.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<StatusCompra>> GetById(int id)
         {
+            const string endpointName = nameof(GetById);
+            string header = $"GET | {UserTokenOptions.GetClaimTypesNameValue(User.Identity)} | {controllerName}: {endpointName}";
+
             try
             {
-                StatusCompra entity = await service.GetById(id);
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Start.Value}");
+
+                StatusCompra entity = await service.GetById(id, UserTokenOptions.GetClaimTypesNameValue(User.Identity));
 
                 if (entity is null)
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.GetItemNotFound,
+                        $"{header} - {MessageError.NotFoundSingle.Value}");
+
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
+                }
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Stop.Value}");
 
                 return Ok(entity);
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.GetItemError, ex,
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
@@ -128,16 +184,28 @@ namespace boticario.API.Controllers
         [HttpPost]
         public async Task<ActionResult<StatusCompra>> Post(StatusCompra entity)
         {
+            string usuario = UserTokenOptions.GetClaimTypesNameValue(User.Identity);
+
+            const string endpointName = nameof(Post);
+            string header = $"POST | {usuario} | {controllerName}: {endpointName}";
+
             try
             {
-                string usuario = UserTokenOptions.GetClaimTypesNameValue(User.Identity);
+                logger.LogInformation((int)LogEventEnum.Events.InsertItem,
+                    $"{header} | {MessageLog.Start.Value}");
 
                 entity = await service.Create(entity, usuario);
+
+                logger.LogInformation((int)LogEventEnum.Events.InsertItem,
+                    $"{header} | {MessageLog.Stop.Value}");
 
                 return Ok(entity);
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.InsertItemError,
+                    $"{header} | {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
@@ -158,20 +226,42 @@ namespace boticario.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, StatusCompra entity)
         {
+            string usuario = UserTokenOptions.GetClaimTypesNameValue(User.Identity);
+
+            const string endpointName = nameof(Put);
+            string header = $"PUT | {usuario} | {controllerName}: {endpointName}";
+
             try
             {
                 if (id != entity.Id)
-                    return BadRequest(new { message = MessageError.DifferentIds.Value });
+                {
+                    logger.LogWarning((int)LogEventEnum.Events.UpdateItemNotFound,
+                        $"{MessageError.DifferentIds.Value} - ID Entrada: {id} | ID Objeto: {entity.Id}");
 
-                string usuario = UserTokenOptions.GetClaimTypesNameValue(User.Identity);
+                    return BadRequest(new { message = MessageError.DifferentIds.Value });
+                }
+
+                logger.LogInformation((int)LogEventEnum.Events.UpdateItem,
+                    $"{header} - {MessageLog.Start.Value}");
 
                 if (await service.Update(entity, usuario))
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.UpdateItem,
+                        $"{header} - {MessageLog.Stop.Value}");
+
                     return Ok(new { message = MessageSuccess.Update.Value });
+                }
+
+                logger.LogWarning((int)LogEventEnum.Events.UpdateItemNotFound,
+                    $"{header} - {MessageLog.UpdateNotFound.Value} - ID: {id}");
 
                 return NotFound(new { message = MessageError.NotFoundSingle.Value });
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.UpdateItemError, ex,
+                    $"{header} - {MessageLog.Error.Value} - Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
