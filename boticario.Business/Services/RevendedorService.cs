@@ -59,6 +59,9 @@ namespace boticario.Services
 
                 entity.Senha = HashOptions.CreatePasswordHash(entity.Senha);
 
+                entity.Cpf = entity.Cpf.Replace(".", string.Empty).Replace("-", string.Empty)
+                    .Replace(";", string.Empty).Replace(",", string.Empty).Replace("/", string.Empty);
+
                 context.Revendedores.Add(entity);
 
                 await context.SaveChangesAsync();
@@ -150,6 +153,9 @@ namespace boticario.Services
             {
                 logger.LogInformation((int)LogEventEnum.Events.InsertItem,
                     $"{header} - {MessageLog.Saving.Value}");
+
+                entity.Cpf = entity.Cpf.Replace(".", string.Empty).Replace("-", string.Empty)
+                    .Replace(";", string.Empty).Replace(",", string.Empty).Replace("/", string.Empty);
 
                 context.Revendedores.Add(entity);
 
@@ -292,6 +298,8 @@ namespace boticario.Services
 
             entity.DataCriacao = oldEntity.DataCriacao;
             entity.DataAlteracao = DateTime.Now;
+            entity.Cpf = entity.Cpf.Replace(".", string.Empty).Replace("-", string.Empty)
+                    .Replace(";", string.Empty).Replace(",", string.Empty).Replace("/", string.Empty);
 
             string newJson = JsonConvert.SerializeObject(entity);
 
