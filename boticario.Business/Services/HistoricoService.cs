@@ -1,6 +1,8 @@
-﻿using boticario.Models;
+﻿using boticario.Helpers.Enums;
+using boticario.Models;
 using boticario.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,11 +13,15 @@ namespace boticario.Services
 {
     public class HistoricoService
     {
-        public readonly AppDbContext context;
+        private readonly AppDbContext context;
+        private readonly ILogger<HistoricoService> logger;
 
-        public HistoricoService(AppDbContext context)
+        private readonly string serviceName = nameof(HistoricoService);
+
+        public HistoricoService(AppDbContext context, ILogger<HistoricoService> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public async Task<Historico> Create(Historico entity)
@@ -55,68 +61,169 @@ namespace boticario.Services
             }
         }
 
-        public async Task<IEnumerable<HistoricoViewModel>> GetAll()
-            => await context.Historicos.Select(item => new HistoricoViewModel
-            {
-                Id = item.Id,
-                TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
-                NomeTabela = item.NomeTabela,
-                ChaveTabela = item.ChaveTabela,
-                Usuario = item.Usuario,
-                Json = GetJsonHistorico(item),
-                Data = item.Data
-            }).ToListAsync();
+        public async Task<IEnumerable<HistoricoViewModel>> GetAll(string usuario)
+        {
+            const string methodName = nameof(GetAll);
+            string header = $"METHOD | {usuario} | {serviceName}: {methodName}";
 
-        public async Task<HistoricoViewModel> GetById(int id)
-            => await context.Historicos.Select(item => new HistoricoViewModel
+            try
             {
-                Id = item.Id,
-                TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
-                NomeTabela = item.NomeTabela,
-                ChaveTabela = item.ChaveTabela,
-                Usuario = item.Usuario,
-                Json = GetJsonHistorico(item),
-                Data = item.Data
-            }).FirstOrDefaultAsync(item => item.Id.Equals(id));
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.GettingList.Value}");
 
-        public async Task<IEnumerable<HistoricoViewModel>> GetByNomeTabela(string nomeTabela)
-            => await context.Historicos.Select(item => new HistoricoViewModel
-            {
-                Id = item.Id,
-                TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
-                NomeTabela = item.NomeTabela,
-                ChaveTabela = item.ChaveTabela,
-                Usuario = item.Usuario,
-                Json = GetJsonHistorico(item),
-                Data = item.Data
-            })
-                .Where(item => item.NomeTabela.Equals(nomeTabela)).ToListAsync();
+                var result = await context.Historicos.Select(item => new HistoricoViewModel
+                {
+                    Id = item.Id,
+                    TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
+                    NomeTabela = item.NomeTabela,
+                    ChaveTabela = item.ChaveTabela,
+                    Usuario = item.Usuario,
+                    Json = GetJsonHistorico(item),
+                    Data = item.Data
+                }).ToListAsync();
 
-        public async Task<IEnumerable<HistoricoViewModel>> GetByChaveTabela(int chaveTabela)
-            => await context.Historicos.Select(item => new HistoricoViewModel
-            {
-                Id = item.Id,
-                TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
-                NomeTabela = item.NomeTabela,
-                ChaveTabela = item.ChaveTabela,
-                Usuario = item.Usuario,
-                Json = GetJsonHistorico(item),
-                Data = item.Data
-            })
-                .Where(item => item.ChaveTabela.Equals(chaveTabela)).ToListAsync();
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Getted.Value} - Quantidade: {result.Count()}");
 
-        public async Task<IEnumerable<HistoricoViewModel>> GetByTabelaChave(string nomeTabela, int chaveTabela)
-            => await context.Historicos.Select(item => new HistoricoViewModel
+                return result;
+            }
+            catch (Exception)
             {
-                Id = item.Id,
-                TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
-                NomeTabela = item.NomeTabela,
-                ChaveTabela = item.ChaveTabela,
-                Usuario = item.Usuario,
-                Json = GetJsonHistorico(item),
-                Data = item.Data
-            })
-                .Where(item => item.NomeTabela.Equals(nomeTabela) && item.ChaveTabela.Equals(chaveTabela)).ToListAsync();
+                throw;
+            }
+        }
+
+        public async Task<HistoricoViewModel> GetById(int id, string usuario)
+        {
+            const string methodName = nameof(GetById);
+            string header = $"METHOD | {usuario} | {serviceName}: {methodName}";
+
+            try
+            {
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.GettingList.Value}");
+
+                HistoricoViewModel result = await context.Historicos.Select(item => new HistoricoViewModel
+                {
+                    Id = item.Id,
+                    TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
+                    NomeTabela = item.NomeTabela,
+                    ChaveTabela = item.ChaveTabela,
+                    Usuario = item.Usuario,
+                    Json = GetJsonHistorico(item),
+                    Data = item.Data
+                })
+                    .FirstOrDefaultAsync(item => item.Id.Equals(id));
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Getted.Value} - ID: {id}");
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<HistoricoViewModel>> GetByNomeTabela(string nomeTabela, string usuario)
+        {
+            const string methodName = nameof(GetByNomeTabela);
+            string header = $"METHOD | {usuario} | {serviceName}: {methodName}";
+
+            try
+            {
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.GettingList.Value}");
+
+                List<HistoricoViewModel> result = await context.Historicos.Select(item => new HistoricoViewModel
+                {
+                    Id = item.Id,
+                    TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
+                    NomeTabela = item.NomeTabela,
+                    ChaveTabela = item.ChaveTabela,
+                    Usuario = item.Usuario,
+                    Json = GetJsonHistorico(item),
+                    Data = item.Data
+                })
+                    .Where(item => item.NomeTabela.Equals(nomeTabela)).ToListAsync();
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Getted.Value} - Nome da Tabela: {nomeTabela}");
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<HistoricoViewModel>> GetByChaveTabela(int chaveTabela, string usuario)
+        {
+            const string methodName = nameof(GetByChaveTabela);
+            string header = $"METHOD | {usuario} | {serviceName}: {methodName}";
+
+            try
+            {
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.GettingList.Value}");
+
+                List<HistoricoViewModel> result = await context.Historicos.Select(item => new HistoricoViewModel
+                {
+                    Id = item.Id,
+                    TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
+                    NomeTabela = item.NomeTabela,
+                    ChaveTabela = item.ChaveTabela,
+                    Usuario = item.Usuario,
+                    Json = GetJsonHistorico(item),
+                    Data = item.Data
+                })
+                    .Where(item => item.ChaveTabela.Equals(chaveTabela)).ToListAsync();
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Getted.Value} - Chave da Tabela: {chaveTabela}");
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<HistoricoViewModel>> GetByTabelaChave(string nomeTabela, int chaveTabela, string usuario)
+        {
+            const string methodName = nameof(GetByTabelaChave);
+            string header = $"METHOD | {usuario} | {serviceName}: {methodName}";
+
+            try
+            {
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.GettingList.Value}");
+
+                List<HistoricoViewModel> result = await context.Historicos.Select(item => new HistoricoViewModel
+                {
+                    Id = item.Id,
+                    TipoHistorico = context.TiposHistorico.FirstOrDefault(tipo => tipo.Id.Equals(item.IdTipoHistorico)).Descricao,
+                    NomeTabela = item.NomeTabela,
+                    ChaveTabela = item.ChaveTabela,
+                    Usuario = item.Usuario,
+                    Json = GetJsonHistorico(item),
+                    Data = item.Data
+                })
+                    .Where(item => item.NomeTabela.Equals(nomeTabela) && item.ChaveTabela.Equals(chaveTabela)).ToListAsync();
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Getted.Value} - Chave da Tabela: {chaveTabela}");
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public async Task<bool> IsExist(int id)
             => await context.Historicos.AnyAsync(item => item.Id.Equals(id));

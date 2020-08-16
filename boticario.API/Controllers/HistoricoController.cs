@@ -47,15 +47,29 @@ namespace boticario.API.Controllers
 
             try
             {
-                IEnumerable<HistoricoViewModel> entities = await service.GetAll();
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Start.Value}");
+
+                IEnumerable<HistoricoViewModel> entities = await service.GetAll(UserTokenOptions.GetClaimTypesNameValue(User.Identity));
 
                 if (entities.ToList().Count <= 0)
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.GetItemNotFound,
+                        $"{header} - {MessageError.NotFound.Value}");
+
                     return NotFound(new { message = MessageError.NotFound.Value });
+                }
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Stop.Value}");
 
                 return Ok(entities);
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.GetItemError, ex,
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
@@ -75,17 +89,34 @@ namespace boticario.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<HistoricoViewModel>> GetById(int id)
         {
+            const string endpointName = nameof(GetById);
+            string header = $"GET | {UserTokenOptions.GetClaimTypesNameValue(User.Identity)} | {controllerName}: {endpointName}";
+
             try
             {
-                HistoricoViewModel entity = await service.GetById(id);
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Start.Value}");
+
+                HistoricoViewModel entity = await service.GetById(id, UserTokenOptions.GetClaimTypesNameValue(User.Identity));
 
                 if (entity is null)
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.GetItemNotFound,
+                        $"{header} - {MessageError.NotFoundSingle.Value}");
+
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
+                }
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Stop.Value}");
 
                 return Ok(entity);
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.GetItemError, ex,
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
@@ -105,17 +136,35 @@ namespace boticario.API.Controllers
         [HttpGet("NomeTabela/{nomeTabela}")]
         public async Task<ActionResult<IEnumerable<HistoricoViewModel>>> GetByNomeTabela(string nomeTabela)
         {
+            const string endpointName = nameof(GetByNomeTabela);
+            string header = $"GET | {UserTokenOptions.GetClaimTypesNameValue(User.Identity)} | {controllerName}: {endpointName}";
+
             try
             {
-                IEnumerable<HistoricoViewModel> entities = await service.GetByNomeTabela(nomeTabela);
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Start.Value}");
+
+                IEnumerable<HistoricoViewModel> entities = await service.GetByNomeTabela(nomeTabela, 
+                    UserTokenOptions.GetClaimTypesNameValue(User.Identity));
 
                 if (entities is null)
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.GetItemNotFound,
+                        $"{header} - {MessageError.NotFoundSingle.Value}");
+
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
+                }
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Stop.Value}");
 
                 return Ok(entities);
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.GetItemError, ex,
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
@@ -135,17 +184,35 @@ namespace boticario.API.Controllers
         [HttpGet("ChaveTabela/{chaveTabela}")]
         public async Task<ActionResult<IEnumerable<HistoricoViewModel>>> GetByChaveTabela(int chaveTabela)
         {
+            const string endpointName = nameof(GetByChaveTabela);
+            string header = $"GET | {UserTokenOptions.GetClaimTypesNameValue(User.Identity)} | {controllerName}: {endpointName}";
+
             try
             {
-                IEnumerable<HistoricoViewModel> entities = await service.GetByChaveTabela(chaveTabela);
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Start.Value}");
+
+                IEnumerable<HistoricoViewModel> entities = await service.GetByChaveTabela(chaveTabela,
+                    UserTokenOptions.GetClaimTypesNameValue(User.Identity));
 
                 if (entities is null)
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.GetItemNotFound,
+                        $"{header} - {MessageError.NotFoundSingle.Value}");
+
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
+                }
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Stop.Value}");
 
                 return Ok(entities);
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.GetItemError, ex,
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
@@ -166,17 +233,35 @@ namespace boticario.API.Controllers
         [HttpGet("{nomeTabela}/{chaveTabela}")]
         public async Task<ActionResult<IEnumerable<HistoricoViewModel>>> GetByTabelaChave(string nomeTabela, int chaveTabela)
         {
+            const string endpointName = nameof(GetByTabelaChave);
+            string header = $"GET | {UserTokenOptions.GetClaimTypesNameValue(User.Identity)} | {controllerName}: {endpointName}";
+
             try
             {
-                IEnumerable<HistoricoViewModel> entities = await service.GetByTabelaChave(nomeTabela, chaveTabela);
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Start.Value}");
+
+                IEnumerable<HistoricoViewModel> entities = await service.GetByTabelaChave(nomeTabela, chaveTabela,
+                    UserTokenOptions.GetClaimTypesNameValue(User.Identity));
 
                 if (entities is null)
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.GetItemNotFound,
+                        $"{header} - {MessageError.NotFoundSingle.Value}");
+
                     return NotFound(new { message = MessageError.NotFoundSingle.Value });
+                }
+
+                logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                    $"{header} - {MessageLog.Stop.Value}");
 
                 return Ok(entities);
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.GetItemError, ex,
+                    $"{header} - {MessageLog.Error.Value} | Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
