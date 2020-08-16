@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using boticario.Helpers.Enums;
+using boticario.Options;
 using boticario.Services;
 using boticario.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace boticario.API.Controllers
 {
@@ -17,10 +19,14 @@ namespace boticario.API.Controllers
     public class HistoricoController : ControllerBase
     {
         private readonly HistoricoService service;
+        private readonly ILogger<HistoricoController> logger;
 
-        public HistoricoController(HistoricoService service)
+        private readonly string controllerName = nameof(HistoricoController);
+
+        public HistoricoController(HistoricoService service, ILogger<HistoricoController> logger)
         {
             this.service = service;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -36,6 +42,9 @@ namespace boticario.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HistoricoViewModel>>> GetAll()
         {
+            const string endpointName = nameof(GetAll);
+            string header = $"GET | {UserTokenOptions.GetClaimTypesNameValue(User.Identity)} | {controllerName}: {endpointName}";
+
             try
             {
                 IEnumerable<HistoricoViewModel> entities = await service.GetAll();
