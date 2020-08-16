@@ -19,11 +19,11 @@ namespace boticario.Business
             this.regraService = regraService;
         }
 
-        public async Task<int> GetStatusCompraId(string cpf)
+        public async Task<int> GetStatusCompraId(string cpf, string usuario)
         {
             try
             {
-                string cpfCoringa = (await parametroService.GetById((int)ParametroSistemaEnum.Parameter.CpfCoringa)).Valor;
+                string cpfCoringa = (await parametroService.GetById((int)ParametroSistemaEnum.Parameter.CpfCoringa, usuario)).Valor;
 
                 if (cpf.Equals(cpfCoringa))
                     return (int)StatusCompraEnum.Status.Aprovado;
@@ -36,11 +36,11 @@ namespace boticario.Business
             }
         }
 
-        public async Task<int> GetPercentualCashback(double valorCompra)
+        public async Task<int> GetPercentualCashback(double valorCompra, string usuario)
         {
             try
             {
-                List<RegraCashback> regras = (await regraService.GetAll()).ToList();
+                List<RegraCashback> regras = (await regraService.GetAll(usuario)).ToList();
 
                 int percentual = 0;
 

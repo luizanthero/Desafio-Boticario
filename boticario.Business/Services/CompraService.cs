@@ -64,7 +64,7 @@ namespace boticario.Services
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
                     $"{header} - {MessageLog.Getting.Value} - Buscando Status pelo CPF: {entity.CpfRevendedor}");
 
-                entity.IdStatus = await regrasCompra.GetStatusCompraId(entity.CpfRevendedor);
+                entity.IdStatus = await regrasCompra.GetStatusCompraId(entity.CpfRevendedor, usuario);
 
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
                     $"{header} - {MessageLog.Getted.Value} - ID Status: {entity.Status}");
@@ -72,7 +72,7 @@ namespace boticario.Services
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
                     $"{header} - {MessageLog.Getting.Value} - Buscando Regra de Percentual de Cashback pelo Valor: {entity.Valor}");
 
-                entity.PercentualCashback = await regrasCompra.GetPercentualCashback(entity.Valor);
+                entity.PercentualCashback = await regrasCompra.GetPercentualCashback(entity.Valor, usuario);
 
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
                     $"{header} - {MessageLog.Getted.Value} - Percentual Cashback: {entity.PercentualCashback}");
