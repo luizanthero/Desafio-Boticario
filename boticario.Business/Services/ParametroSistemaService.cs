@@ -102,7 +102,7 @@ namespace boticario.Services
                 await historicoService.Create(new Historico
                 {
                     ChaveTabela = entity.Id,
-                    NomeTabela = typeof(Compra).Name,
+                    NomeTabela = typeof(ParametroSistema).Name,
                     JsonAntes = json,
                     JsonDepois = string.Empty,
                     Usuario = usuario,
@@ -148,7 +148,7 @@ namespace boticario.Services
             try
             {
                 logger.LogInformation((int)LogEventEnum.Events.GetItem,
-                    $"{header} - {MessageLog.GettingList.Value}");
+                    $"{header} - {MessageLog.Getting.Value}");
 
                 ParametroSistema result = await context.ParametrosSistema.FirstOrDefaultAsync(item => item.Id.Equals(id));
 
@@ -168,19 +168,34 @@ namespace boticario.Services
 
         public async Task<bool> Update(ParametroSistema entity, string usuario)
         {
-            ParametroSistema parametro = await helperService.GetEntityAntiga<ParametroSistema>(entity.Id);
-            string oldJson = JsonConvert.SerializeObject(parametro);
+            const string methodName = nameof(Update);
+            string header = $"METHOD | {usuario} | {serviceName}: {methodName}";
 
-            entity.DataCriacao = parametro.DataCriacao;
+            logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                $"{header} - {MessageLog.Getting.Value} - {MessageLog.GettingOldEntity.Value} - ID: {entity.Id} ");
+
+            ParametroSistema oldEntity = await helperService.GetEntityAntiga<ParametroSistema>(entity.Id);
+            string oldJson = JsonConvert.SerializeObject(oldEntity);
+
+            logger.LogInformation((int)LogEventEnum.Events.GetItem,
+                $"{header} - {MessageLog.Getted.Value} - ID: {entity.Id} ");
+
+            entity.DataCriacao = oldEntity.DataCriacao;
             entity.DataAlteracao = DateTime.Now;
 
             string newJson = JsonConvert.SerializeObject(entity);
+
+            logger.LogInformation((int)LogEventEnum.Events.UpdateItem,
+                $"{header} - {MessageLog.Updating.Value} - ID: {entity.Id}");
 
             context.Entry(entity).State = EntityState.Modified;
 
             try
             {
                 await context.SaveChangesAsync();
+
+                logger.LogInformation((int)LogEventEnum.Events.UpdateItem,
+                    $"{header} - {MessageLog.Updated.Value}");
 
                 await historicoService.Create(new Historico
                 {

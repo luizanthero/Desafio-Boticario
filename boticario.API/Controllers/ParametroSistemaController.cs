@@ -226,20 +226,42 @@ namespace boticario.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, ParametroSistema entity)
         {
+            string usuario = UserTokenOptions.GetClaimTypesNameValue(User.Identity);
+
+            const string endpointName = nameof(Put);
+            string header = $"PUT | {usuario} | {controllerName}: {endpointName}";
+
             try
             {
                 if (id != entity.Id)
-                    return BadRequest(new { message = MessageError.DifferentIds.Value });
+                {
+                    logger.LogWarning((int)LogEventEnum.Events.UpdateItemNotFound,
+                        $"{MessageError.DifferentIds.Value} - ID Entrada: {id} | ID Objeto: {entity.Id}");
 
-                string usuario = UserTokenOptions.GetClaimTypesNameValue(User.Identity);
+                    return BadRequest(new { message = MessageError.DifferentIds.Value });
+                }
+
+                logger.LogInformation((int)LogEventEnum.Events.UpdateItem,
+                    $"{header} - {MessageLog.Start.Value}");
 
                 if (await service.Update(entity, usuario))
+                {
+                    logger.LogInformation((int)LogEventEnum.Events.UpdateItem,
+                        $"{header} - {MessageLog.Stop.Value}");
+
                     return Ok(new { message = MessageSuccess.Update.Value });
+                }
+
+                logger.LogWarning((int)LogEventEnum.Events.UpdateItemNotFound,
+                    $"{header} - {MessageLog.UpdateNotFound.Value} - ID: {id}");
 
                 return NotFound(new { message = MessageError.NotFoundSingle.Value });
             }
             catch (Exception ex)
             {
+                logger.LogError((int)LogEventEnum.Events.UpdateItemError, ex,
+                    $"{header} - {MessageLog.Error.Value} - Exception: {ex.Message}");
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = MessageError.InternalError.Value, error = ex.Message });
             }
