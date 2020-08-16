@@ -5,9 +5,9 @@ namespace boticario.Business.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll(string usuario);
 
-        Task<T> GetById(int id);
+        Task<T> GetById(int id, string usuario);
 
         Task<T> Create(T entity, string usuario);
 
