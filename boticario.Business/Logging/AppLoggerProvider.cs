@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using boticario.Helpers.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
@@ -34,8 +35,8 @@ namespace boticario.Logging
             }
             finally
             {
-                logger.LogInformation("Request {method} | URL: {url} | StatusCode: {statusCode}", 
-                    context.Request?.Method, context.Request?.Path.Value, context.Response?.StatusCode);
+                logger.LogInformation((int)LogEventEnum.Events.RequestAPI,
+                    $"IP: {context.Connection.RemoteIpAddress} | {context.Request?.Method} | Rota: {context.Request?.Path.Value} | StatusCode: {context.Response?.StatusCode}");
             }
         }
 

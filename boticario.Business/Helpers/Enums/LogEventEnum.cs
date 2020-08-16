@@ -4,6 +4,8 @@
     {
         public enum Events
         {
+            RequestAPI = 1,
+
             Generic = 1000,
 
             GetItem = 1001,
